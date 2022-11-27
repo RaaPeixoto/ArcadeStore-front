@@ -52,4 +52,4 @@ const GlobalStyle = createGlobalStyle`
   
 `
 
-export default GlobalStyle
+export default GlobalStyle;
