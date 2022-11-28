@@ -10,6 +10,7 @@ import { Cart4 } from "styled-icons/bootstrap";
 import Modal from "../../components/Modal";
 import { useNavigate } from "react-router-dom";
 import { TailSpin } from 'react-loader-spinner'
+import swal from 'sweetalert';
 export default function ShoppingCartPage() {
     let navigate = useNavigate();
     const [shoppingCart, setShoppingCart] = useState(null);
@@ -36,6 +37,7 @@ export default function ShoppingCartPage() {
         })
             .then(res => {
                 setOpenDeleteModal(false)
+                swal("Sucesso!", "Jogo removido com sucesso!", "success");
             })
             .catch(err => {
                 console.log(err)
@@ -69,6 +71,7 @@ export default function ShoppingCartPage() {
             headers: { Authorization: `Bearer ${config}` },
         })
             .then(res => {
+                swal("Sucesso!", "Pedido realizado com sucesso!", "success");
                 navigate("/")
             })
             .catch(err => {
