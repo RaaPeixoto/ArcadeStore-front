@@ -42,11 +42,15 @@ div{
     width:100%;
     display:flex;
     font-size: 15px;
+    font-weight:500;
     color:${COLORS.text};
     padding:23px;
     align-items:center;
     cursor:pointer;
+    margin:0 !important;
+    padding:12px 15px;
     p{
+       
         margin-left:15px;
     }
 }

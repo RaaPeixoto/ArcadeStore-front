@@ -7,7 +7,7 @@ export default function PlafatormsContainer({setPlataform,plataform}){
     
     return(
         <>
-         <FilterTitle> Filtrar por plataforma </FilterTitle>
+         <FilterTitle> Filtrar por Plataforma </FilterTitle>
     <div onClick={()=> setPlataform("")} ><AllIcon/> <Plataform plataform=" " selectedPlataform={plataform}>Todos</Plataform></div>
     <div onClick={()=> setPlataform("xbox")} ><XboxIcon/> <Plataform plataform="xbox" selectedPlataform={plataform}>Xbox</Plataform></div>
     <div onClick={()=> setPlataform("playstation")} ><PlayStationIcon/> <Plataform plataform="playstation" selectedPlataform={plataform}>Playstation</Plataform></div>
@@ -42,6 +42,7 @@ line-height: 18px;
 text-align:center;
 color:${COLORS.text};
 padding-top:6px;
+margin-top: 30px;
 `
 const Plataform= styled.p`
         color:${props=> props.selectedPlataform.includes(props.plataform)? COLORS.plataformIcon:COLORS.text};
