@@ -1,13 +1,14 @@
 import styled from "styled-components";
-import { COLORS } from "../../../constants/layoutConstants";
+import { COLORS } from "../../constants/layoutConstants";
 import { LogOut } from "styled-icons/boxicons-regular";
-import { UserContext } from "../../../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { CircleUser } from "styled-icons/fa-regular";
 import { Cart4 } from "styled-icons/bootstrap";
 import { Grid } from "styled-icons/bootstrap";
 export function UserIcons(){
+  let navigate= useNavigate();
     const { user } = useContext(UserContext);
     function logOut() {
         localStorage.clear();
@@ -17,8 +18,8 @@ export function UserIcons(){
     
     <>
     <div><UserIcon/><p>{user.userName}</p></div>
-    <div><CartIcon/><p>Carrinho de compras</p></div>
-    <div><LibaryGamesIcon/><p>Meus Jogos</p></div>
+    <div onClick={()=>navigate("/shoppingcart")}><CartIcon/><p>Carrinho de compras</p></div>
+    <div onClick={()=>navigate("/usergames")}><LibaryGamesIcon /><p>Meus Jogos</p></div>
     <div onClick={logOut}><LogoutIcon/><p>Sair</p></div>
     </>
     )

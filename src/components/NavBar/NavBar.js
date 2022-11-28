@@ -1,20 +1,20 @@
 import styled from "styled-components"
-import { COLORS } from "../../../constants/layoutConstants"
-import logo from "../../../assets/images/logo.png"
-import { UserContext } from "../../../contexts/UserContext";
+import { COLORS } from "../../constants/layoutConstants"
+import logo from "../../assets/images/logo.png"
+import { UserContext } from "../../contexts/UserContext";
 import { useContext } from "react"
 import { Login } from "styled-icons/material-outlined"
 import { useNavigate } from "react-router-dom"
 import AdmIcons from "./AdmIcons"
-import PlataformsContainer from "../PlataformsContainer"
+import PlataformsContainer from "../../pages/CatalogPage/PlataformsContainer"
 import { UserIcons } from "./UserIcons";
 export default function NavBar({ setPlataform, plataform }) {
     let navigate = useNavigate();
     const { user } = useContext(UserContext);
-console.log(user.type);
+
     return (
         <NavBarContainer>
-           <LogoContainer> <Logo src={logo} /></LogoContainer>
+           <LogoContainer onClick={()=>navigate("/")}> <Logo src={logo} /></LogoContainer>
             {user.type !== null ?
                 user.type === "adm" ?
                     <AdmIcons user={user}/>
@@ -23,7 +23,7 @@ console.log(user.type);
                 :
                 <div onClick={()=>navigate("/login")}> <LoginIcon /> <p>Entre ou Cadastre-se</p></div>
             }
-            <PlataformsContainer setPlataform={setPlataform} plataform={plataform} />
+            {plataform !== undefined? <PlataformsContainer setPlataform={setPlataform} plataform={plataform} /> :<></>}
         </NavBarContainer>
     )
 }

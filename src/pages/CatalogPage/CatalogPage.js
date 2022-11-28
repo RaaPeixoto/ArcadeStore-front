@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { COLORS, FONTS } from "../../constants/layoutConstants"
 import { BASE_URL } from "../../constants/url"
 import GameItem from "./GameItem"
-import NavBar from "./NavBar/NavBar"
+import NavBar from "../../components/NavBar/NavBar"
 import SearchBar from "./SearchBar"
 import Modal from "../../components/Modal"
 import { AuthContext } from "../../contexts/AuthContext";
@@ -17,7 +17,7 @@ export default function CatalogPage() {
     const [filterGames,setFilterGames]=useState("")
     const [plataform,setPlataform]=useState("");
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [gameToDelete,setGametoDelete]=useState([])
+    const [gameToDelete,setGametoDelete]=useState([]);
     useEffect(() => {
         axios.get(`${BASE_URL}/products`)
             .then((res) => {
@@ -56,7 +56,7 @@ export default function CatalogPage() {
             <GamesContainer>
                 {gamesCatalog.map((game) =>
                 game.title.toLowerCase().includes(filterGames.toLowerCase())&& (game.plataforms.includes(plataform)||plataform ==="" )?
-                <GameItem confirmDelete={confirmDelete}key={game._id} game={game} openDeleteModal = {openDeleteModal} setOpenDeleteModal={setOpenDeleteModal}/>
+                <GameItem confirmDelete={confirmDelete}key={game._id} game={game} />
                 :
                 ""
                 )

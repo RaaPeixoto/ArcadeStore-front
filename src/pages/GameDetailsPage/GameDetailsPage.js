@@ -10,10 +10,12 @@ import { ArrowIosBackOutline } from "styled-icons/evaicons-outline";
 import {AddShoppingCart} from "styled-icons/material-outlined"
 import { UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 export default function GameDetailPage(){
     const { user } = useContext(UserContext);
     const{id}=useParams();
     const[game,setGame]=useState({plataforms:[]})
+    const { config } = useContext(AuthContext);
     let navigate = useNavigate();
     useEffect(()=>
     {
@@ -24,6 +26,25 @@ export default function GameDetailPage(){
             })
             .catch((err) => console.log(err.response.data))
     },[])
+    function postShoppingCart(game){
+        const cartItem = {
+            "image": game.image,
+          "price": game.price,
+          "title": game.title,
+          "productId": game._id
+        
+        }
+        axios.post(`${BASE_URL}/shopKart`,cartItem,{
+            headers: { Authorization: `Bearer ${config}` },
+          } )
+        .then(res => {
+          console.log("deu com")
+        })
+        .catch(err => {
+            console.log(err)
+          
+        })
+    }
     return(
         <PageContainer game={game}>
             <Logo src={logo} />
@@ -36,7 +57,7 @@ export default function GameDetailPage(){
             <p> <PlataformsIcon/> {game.plataforms.map((p)=> `${p[0].toUpperCase() + p.substring(1)} - `)}</p>
             {user.type === null?<span>*É preciso estar logado para adicionar ao carrinho.</span>:<></>}
             </article>
-            <div><button><CartIcon/>R$ {parseFloat(game.price).toFixed(2).replace(".", ",")}</button> <section onClick={()=> navigate(-1)}><BackIcon/>Voltar</section> </div>
+            <div><button onClick={()=> {if(user.type !== null){postShoppingCart(game); navigate("/shoppingcart")} } }><CartIcon/>R$ {parseFloat(game.price).toFixed(2).replace(".", ",")}</button> <section onClick={()=> navigate(-1)}><BackIcon/>Voltar</section> </div>
             </GameDetails>
         </PageContainer>
     )

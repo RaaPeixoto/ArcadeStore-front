@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext} from "react";
 import { AddShoppingCart } from "styled-icons/material-outlined"
 import GameContainer from "../../components/GameContainer";
 import { UserContext } from "../../contexts/UserContext";
@@ -10,14 +10,31 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../constants/url";
 import { AuthContext } from "../../contexts/AuthContext";
-import Modal from "../../components/Modal";
-export default function GameItem({ game, openDeleteModal, setOpenDeleteModal,confirmDelete}) {
+export default function GameItem({ game, confirmDelete}) {
     
     const { user } = useContext(UserContext);
     let navigate = useNavigate();
     const { config } = useContext(AuthContext);
   
-
+function postShoppingCart(game){
+    const cartItem = {
+        "image": game.image,
+      "price": game.price,
+      "title": game.title,
+      "productId": game._id
+    
+    }
+    axios.post(`${BASE_URL}/shopKart`,cartItem,{
+        headers: { Authorization: `Bearer ${config}` },
+      } )
+    .then(res => {
+      console.log("deu com")
+    })
+    .catch(err => {
+        console.log(err)
+      
+    })
+}
     
     return (
         <GameContainer >
@@ -43,7 +60,7 @@ export default function GameItem({ game, openDeleteModal, setOpenDeleteModal,con
                         <Details> {game.title} <p onClick={() => { navigate(`/game/${game._id}`) }}> Mais informações</p> </Details>
                     </GameImage>
 
-                    <button><CartIcon />R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
+                    <button onClick={()=>postShoppingCart(game)}><CartIcon />R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
                     {user.type === null ? <p>*É preciso estar logado para adicionar ao carrinho.</p> : <></>}
 
                 </>

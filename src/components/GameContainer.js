@@ -51,6 +51,17 @@ font-size: 12px;
 margin-top:8px;
 text-align:center;
  }
+ h2{
+    color:${COLORS.text};
+    font-weight: 600;
+font-size: 16px;
+margin-top:8px;
+text-align:center;
+ }
+section{
+    display:flex;
+    flex-direction:column;
+}
 
 `
 
