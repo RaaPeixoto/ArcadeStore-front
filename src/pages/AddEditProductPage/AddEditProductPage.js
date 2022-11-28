@@ -206,4 +206,5 @@ margin:0 !important;
 const Logo = styled.img`
 width:400px;
 margin:30px 0 ;
+margin-right:50px;
 `

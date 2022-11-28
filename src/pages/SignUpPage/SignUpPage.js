@@ -107,7 +107,8 @@ height:100vh;
 `
 const Logo = styled.img`
 width:618px;
-margin:50px 0 ;
+margin:50px 50px 0 0 ;
+
 `
 const StyledLink = styled(Link)`
 margin-top:36px;

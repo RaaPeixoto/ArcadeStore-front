@@ -21,7 +21,7 @@ div{
   input {
     font-family: ${FONTS.text};
     padding-left: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     width: 336px;
     height: 49px;
     background:${COLORS.input};
