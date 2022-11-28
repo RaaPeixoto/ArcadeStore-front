@@ -5,6 +5,7 @@ import CatalogPage from "./pages/CatalogPage/CatalogPage";
 import GameDetailPage from "./pages/GameDetailsPage/GameDetailsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage/ShoppingCartPage";
+import SignUpPage from "./pages/SignUpPage/SignUpPage";
 import UserGamesPage from "./pages/UserGamesPage.js/UserGamesPage";
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
    <Routes>
    <Route path="/" element={<CatalogPage/>}/>
    <Route path="/login" element={<LoginPage/>}/>
+   <Route path="/signUp" element={<SignUpPage/>}/>
    <Route path="/product/:action" element={<AddEditProductPage/>}/>
    <Route path="/product/:action/:id" element={<AddEditProductPage/>}/>
    <Route path="/game/:id" element={<GameDetailPage/>}/>
