@@ -38,7 +38,7 @@ export default function CatalogPage() {
         })
             .then(res => {
                 setOpenDeleteModal(false)
-                swal("Sucesso!", "Jogo deletado com sucesso!", "success");
+                swal("Sucesso!", "Jogo removido com sucesso!", "success");
             })
             .catch(err => {
                 console.log(err)
