@@ -11,6 +11,7 @@ import Modal from "../../components/Modal"
 import { AuthContext } from "../../contexts/AuthContext";
 import { UserContext } from "../../contexts/UserContext";
 import { TailSpin } from 'react-loader-spinner'
+import swal from 'sweetalert';
 export default function CatalogPage() {
 
     let navigate = useNavigate();
@@ -37,6 +38,7 @@ export default function CatalogPage() {
         })
             .then(res => {
                 setOpenDeleteModal(false)
+                swal("Sucesso!", "Jogo deletado com sucesso!", "success");
             })
             .catch(err => {
                 console.log(err)
@@ -122,9 +124,10 @@ width: 60vw;
 const FeaturedGame = styled.img`
 width: 60vw;
 border-radius: 22px;
-height:25vh;
+height:35vh;
 object-fit: cover;
 cursor:pointer;
+
 `
 const FeaturedGameTitle = styled.h1`
 color:${COLORS.text};
