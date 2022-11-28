@@ -69,12 +69,12 @@ div{
       }
     &:disabled {
    
-      background: #eadaf2;
+      background: ${COLORS.searchBar};
       opacity: 0.7;
       
     }
     img{
-        width:100px;
+        width:60px;
     }
     
   }

@@ -9,22 +9,23 @@ import ShoppingCartItem from "./ShoppingCartItem";
 import { Cart4 } from "styled-icons/bootstrap";
 import Modal from "../../components/Modal";
 import { useNavigate } from "react-router-dom";
+import { TailSpin } from 'react-loader-spinner'
 export default function ShoppingCartPage() {
     let navigate = useNavigate();
-    const [shoppingCart,setShoppingCart] = useState([]);
+    const [shoppingCart, setShoppingCart] = useState(null);
     const { config } = useContext(AuthContext);
-     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [gameToDelete,setGametoDelete]=useState([]);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [gameToDelete, setGametoDelete] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-   
+
     useEffect(() => {
-        axios.get(`${BASE_URL}/shopKart`,{
+        axios.get(`${BASE_URL}/shopKart`, {
             headers: { Authorization: `Bearer ${config}` },
-          } )
+        })
             .then((res) => {
                 setShoppingCart(res.data);
                 calculateTotalPrice(res.data);
-               
+
             })
             .catch((err) => console.log(err.response.data))
     }, [openDeleteModal])
@@ -42,26 +43,29 @@ export default function ShoppingCartPage() {
             })
     }
 
-     function confirmDelete(game) { 
+    function confirmDelete(game) {
 
         setOpenDeleteModal(true);
         setGametoDelete(game);
-      }
+    }
 
-      function calculateTotalPrice(games) {
-      
+    function calculateTotalPrice(games) {
+
         let totalbalance = 0;
         games.map((g) =>
-             totalbalance += parseFloat(g.product.price)
-            
+            totalbalance += parseFloat(g.product.price)
+
         );
         setTotalPrice(totalbalance);
-      }
+    }
 
-      function postCheckOut(){
-        let checkOutObj=[]
-        shoppingCart.map((game)=>checkOutObj=[...checkOutObj,{image:game.product.image,title:game.product.title}])
-        axios.post(`${BASE_URL}/checkOut/`,{games:checkOutObj} ,{
+    function postCheckOut() {
+        if (shoppingCart.length ===0){
+            return alert("Você precisa adicionar um item ao carrinho para finalizar o pedido!")
+        }
+        let checkOutObj = []
+        shoppingCart.map((game) => checkOutObj = [...checkOutObj, { image: game.product.image, title: game.product.title }])
+        axios.post(`${BASE_URL}/checkOut/`, { games: checkOutObj }, {
             headers: { Authorization: `Bearer ${config}` },
         })
             .then(res => {
@@ -71,16 +75,19 @@ export default function ShoppingCartPage() {
                 console.log(err)
 
             })
-      }
-   
-  
-    return(
+    }
+
+
+    return (
         <PageContainer>
             <NavBar/>
+            {shoppingCart ? 
+            <ShoppingCartContainer>
+            
             <h1><CartIcon/>Carrinho de compras</h1>
-            {shoppingCart.map((game)=> <ShoppingCartItem key= {game._id} game={game} confirmDelete={confirmDelete}/>)}
+            {shoppingCart.map((game) => <ShoppingCartItem key={game._id} game={game} confirmDelete={confirmDelete} />)}
             <TotalPrice>Total: R$ {totalPrice.toFixed(2).replace(".", ",")}</TotalPrice>
-            <ConfirmCheckout ><button onClick={()=>navigate("/")}>Continuar comprando</button><button onClick={postCheckOut}>Confirmar Compra</button></ConfirmCheckout>
+            <ConfirmCheckout ><button onClick={() => navigate("/")}>Continuar comprando</button><button onClick={postCheckOut}>Confirmar Compra</button></ConfirmCheckout>
             {openDeleteModal ? (
                 <Modal>
                     <p> Você deseja deletar: {gameToDelete.product.title} do seu carrinho ?</p>
@@ -90,7 +97,22 @@ export default function ShoppingCartPage() {
             ) : (
                 <></>
             )}
-        </PageContainer>
+       
+        </ShoppingCartContainer>
+        :
+        <TailSpin
+        height="90"
+        width="90"
+        color={COLORS.button}
+        ariaLabel="tail-spin-loading"
+        radius="1"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+    
+    } 
+    </PageContainer>
     )
 }
 
@@ -101,15 +123,23 @@ background-color: ${COLORS.background};
 width: 100%;
 min-height:100vh;
 padding:77px 88px 30px 388px ;
+justify-content:center;
+align-items:center;
+font-family :${FONTS.text};
 
-font-family :${ FONTS.text};
 h1{
     color:${COLORS.text};
     font-weight: 800;
 font-size: 26px;
 }
 `
-
+const ShoppingCartContainer = styled.div`
+display:flex;
+    flex-direction:column;
+    width: 100%;
+height:100vh;
+justify-content:flex-start;
+`
 const CartIcon = styled(Cart4)`
 width: 35px;
 color: ${COLORS.text};

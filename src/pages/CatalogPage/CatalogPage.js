@@ -9,6 +9,7 @@ import NavBar from "../../components/NavBar/NavBar"
 import SearchBar from "./SearchBar"
 import Modal from "../../components/Modal"
 import { AuthContext } from "../../contexts/AuthContext";
+import { TailSpin } from 'react-loader-spinner'
 export default function CatalogPage() {
     
     let navigate=useNavigate();
@@ -17,7 +18,7 @@ export default function CatalogPage() {
     const [filterGames,setFilterGames]=useState("")
     const [plataform,setPlataform]=useState("");
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [gameToDelete,setGametoDelete]=useState([]);
+    const [gameToDelete,setGametoDelete]=useState([0,1,2,3,4,5,6,7]);
     useEffect(() => {
         axios.get(`${BASE_URL}/products`)
             .then((res) => {
@@ -48,6 +49,7 @@ export default function CatalogPage() {
       }
     return (
         <PageContainer>
+             <NavBar setPlataform={setPlataform} plataform={plataform}/>
             {gamesCatalog? 
             <>
             <FeaturedGameTitle > Jogo em Destaque: {gamesCatalog[gamesCatalog.length-1].title}</FeaturedGameTitle>
@@ -64,10 +66,19 @@ export default function CatalogPage() {
 
             }
             </GamesContainer>
-            <NavBar setPlataform={setPlataform} plataform={plataform}/>
+           
             </>
             :
-            <>loading</>}
+            <TailSpin
+            height="90"
+            width="90"
+            color={COLORS.button}
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />}
              {openDeleteModal ? (
                 <Modal>
                     <p> Você deseja deletar: {gameToDelete.title} permanentemente?</p>
@@ -90,7 +101,7 @@ min-height:100vh;
 padding:77px 88px 30px 388px ;
 align-items:center;
 font-family :${ FONTS.text};
-
+justify-content:center;
 `
 const GamesContainer = styled.div `
 width: 60vw;

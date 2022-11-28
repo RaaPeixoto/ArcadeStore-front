@@ -13,6 +13,7 @@ export function UserIcons(){
     function logOut() {
         localStorage.clear();
         window.location.reload(false);
+        navigate("/")
       }
     return(
     

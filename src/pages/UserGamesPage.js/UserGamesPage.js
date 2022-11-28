@@ -7,9 +7,10 @@ import { Grid } from "styled-icons/bootstrap";
 import { BASE_URL } from "../../constants/url";
 import axios from "axios";
 import GameContainer from "../../components/GameContainer";
+import { TailSpin } from 'react-loader-spinner'
 export default function UserGamesPage() {
     const { config } = useContext(AuthContext);
-    const [userGames, setuserGames] = useState([])
+    const [userGames, setuserGames] = useState(null)
 
     useEffect(() => {
         axios.get(`${BASE_URL}/checkOut/`, {
@@ -27,7 +28,10 @@ export default function UserGamesPage() {
     }, [])
 
     return (
-        <PageContainer>
+    <PageContainer>
+        <NavBar />
+        {userGames? 
+           <UserGameContainer>
             <h1><GridIcon />Meus Jogos</h1>
             <div><GamesContainer>
                 {userGames.map((g) =>
@@ -38,7 +42,22 @@ export default function UserGamesPage() {
                     </GameContainer>
                 )}
             </GamesContainer></div>
-            <NavBar />
+            </UserGameContainer>
+            :
+
+        <TailSpin
+        height="90"
+        width="90"
+        color={COLORS.button}
+        ariaLabel="tail-spin-loading"
+        radius="1"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+        
+        
+        }
         </PageContainer>
     )
 }
@@ -46,6 +65,8 @@ export default function UserGamesPage() {
 const PageContainer = styled.div`
 display:flex;
 flex-direction:column;
+justify-content:center;
+align-items:center;
 background-color: ${COLORS.background};
 width: 100%;
 min-height:100vh;
@@ -71,4 +92,11 @@ width: 60vw;
     display :flex;
     flex-wrap:wrap;
     justify-content:center;
+`
+const UserGameContainer = styled.div`
+display:flex;
+    flex-direction:column;
+    width: 100%;
+height:100vh;
+justify-content:flex-start;
 `

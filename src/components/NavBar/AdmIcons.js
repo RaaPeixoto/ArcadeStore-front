@@ -13,6 +13,7 @@ export default function AdmIcons(/* {user} */){
     function logOut() {
         localStorage.clear();
         window.location.reload(false);
+        navigate("/")
       }
 
     return(
