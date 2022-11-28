@@ -69,7 +69,7 @@ export default function LoginPage() {
             />
                    <div> 
                     <button type="submit" disabled = {loading}> {loading? <img src={loadingGif} alt ="icone carregando"/>:"Entrar"}</button> 
-                    <button disabled = {loading} onClick={()=>navigate(-1)}> Cancelar</button>
+                    <button disabled = {loading}  type="button"  onClick={()=>navigate(-1)}> Cancelar</button>
                     </div>
                 </form>
             </FormItem>

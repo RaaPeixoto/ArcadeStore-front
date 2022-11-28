@@ -2,7 +2,7 @@ import FormItem from "../../components/Form";
 import logo from "../../assets/images/logo.png"
 import styled from "styled-components";
 import axios from "axios";
-import { AuthContext } from "../../contexts/AuthContext"
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import loadingGif from "../../assets/images/loadingGif.gif";
@@ -10,9 +10,11 @@ import { BASE_URL } from "../../constants/url";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { COLORS } from "../../constants/layoutConstants";
+import swal from 'sweetalert';
+
 export default function SignUpPage() {
     let navigate = useNavigate();
-    const {setConfig} = useContext(AuthContext);
+   
       
     const [loading,setLoading] = useState (false)
     const [form, setForm] = useState({
@@ -30,12 +32,14 @@ export default function SignUpPage() {
       e.preventDefault();
       axios.post(`${BASE_URL}/signup`,form)
       .then(res=>{
+        swal("Sucesso!", "Usuário cadastrado com sucesso!", "success");
            navigate("/login") 
   
       })
       .catch(err => {
           console.log(err)
-          alert(err.response.data)
+          swal("Erro!", (err.response.data));
+          
           setLoading(false)
       })
      setLoading(true)
@@ -83,7 +87,7 @@ export default function SignUpPage() {
             />
                    <div> 
                     <button type="submit" disabled = {loading}> {loading? <img src={loadingGif} alt ="icone carregando"/>:"Cadastrar"}</button> 
-                    <button disabled = {loading} onClick={()=>navigate(-1)}> Cancelar</button>
+                    <button disabled = {loading}  type="button"  onClick={()=>navigate(-1)}> Cancelar</button>
                     </div>
                 </form>
             </FormItem>

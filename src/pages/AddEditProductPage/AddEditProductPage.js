@@ -9,7 +9,7 @@ import loadingGif from "../../assets/images/loadingGif.gif";
 import { BASE_URL } from "../../constants/url";
 import { useContext } from "react";
 import { COLORS } from "../../constants/layoutConstants";
-
+import swal from 'sweetalert';
 export default function AddEditProductPage() {
     const { action,id } = useParams();
     let navigate = useNavigate();
@@ -68,6 +68,7 @@ useEffect(() =>{
                 headers: { Authorization: `Bearer ${config}` },
               })
             .then(res => {
+                swal("Sucesso!", "Jogo cadastrado com sucesso!", "success");
                 navigate("/")
             })
             .catch(err => {
@@ -81,6 +82,7 @@ useEffect(() =>{
             headers: { Authorization: `Bearer ${config}` },
           })
         .then(res => {
+            swal("Sucesso!", "Jogo atualizado com sucesso!", "success");
             navigate("/")
         })
         .catch(err => {
@@ -167,7 +169,7 @@ useEffect(() =>{
                         <button type="submit" disabled={loading}> {loading ? <img src={loadingGif} alt="icone carregando" /> : "Editar"}</button>
                     }
                         
-                        <button disabled={loading} onClick={() => navigate(-1)}> Cancelar</button>
+                        <button disabled={loading} type="button" onClick={() => navigate(-1)}> Cancelar</button>
                     </div>
                 </form>
             </FormItem>

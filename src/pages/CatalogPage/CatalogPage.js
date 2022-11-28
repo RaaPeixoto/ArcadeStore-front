@@ -9,16 +9,18 @@ import NavBar from "../../components/NavBar/NavBar"
 import SearchBar from "./SearchBar"
 import Modal from "../../components/Modal"
 import { AuthContext } from "../../contexts/AuthContext";
+import { UserContext } from "../../contexts/UserContext";
 import { TailSpin } from 'react-loader-spinner'
 export default function CatalogPage() {
-    
-    let navigate=useNavigate();
+
+    let navigate = useNavigate();
     const { config } = useContext(AuthContext);
+    const { user } = useContext(UserContext);
     const [gamesCatalog, setGamesCatalog] = useState(null) // se for fazer loading colocar null e depois fazer terninario
-    const [filterGames,setFilterGames]=useState("")
-    const [plataform,setPlataform]=useState("");
+    const [filterGames, setFilterGames] = useState("")
+    const [plataform, setPlataform] = useState("");
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [gameToDelete,setGametoDelete]=useState([0,1,2,3,4,5,6,7]);
+    const [gameToDelete, setGametoDelete] = useState([0, 1, 2, 3, 4, 5, 6, 7]);
     useEffect(() => {
         axios.get(`${BASE_URL}/products`)
             .then((res) => {
@@ -27,8 +29,8 @@ export default function CatalogPage() {
             })
             .catch((err) => console.log(err.response.data))
     }, [openDeleteModal])
-  
-    
+
+
     function deleteProduct(id) {
         axios.delete(`${BASE_URL}/product/${id}`, {
             headers: { Authorization: `Bearer ${config}` },
@@ -42,44 +44,51 @@ export default function CatalogPage() {
             })
     }
 
-     function confirmDelete(game) { 
+    function confirmDelete(game) {
 
         setOpenDeleteModal(true);
         setGametoDelete(game);
-      }
+    }
     return (
         <PageContainer>
-             <NavBar setPlataform={setPlataform} plataform={plataform}/>
-            {gamesCatalog? 
-            <>
-            <FeaturedGameTitle > Jogo em Destaque: {gamesCatalog[gamesCatalog.length-1].title}</FeaturedGameTitle>
-            <FeaturedGame src={gamesCatalog[gamesCatalog.length-1].banner} onClick={()=>navigate(`/game/${gamesCatalog[gamesCatalog.length-1]._id}`)}/>
-            <SearchBar filterGames={filterGames} setFilterGames={setFilterGames}/>
-            <GamesContainer>
-                {gamesCatalog.map((game) =>
-                game.title.toLowerCase().includes(filterGames.toLowerCase())&& (game.plataforms.includes(plataform)||plataform ==="" )?
-                <GameItem confirmDelete={confirmDelete}key={game._id} game={game} />
-                :
-                ""
-                )
-                
+            <NavBar setPlataform={setPlataform} plataform={plataform} />
+            {gamesCatalog ?
+                <>
+                    {user?.type !== "adm" ?
+                        <>
+                            <FeaturedGameTitle > Jogo em Destaque: {gamesCatalog[gamesCatalog.length - 1].title}</FeaturedGameTitle>
+                            <FeaturedGame src={gamesCatalog[gamesCatalog.length - 1].banner} onClick={() => navigate(`/game/${gamesCatalog[gamesCatalog.length - 1]._id}`)} />
+                        </>
+                        :
+                        <></>
+        }
 
-            }
-            </GamesContainer>
-           
-            </>
-            :
-            <TailSpin
-            height="90"
-            width="90"
-            color={COLORS.button}
-            ariaLabel="tail-spin-loading"
-            radius="1"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />}
-             {openDeleteModal ? (
+                    <SearchBar filterGames={filterGames} setFilterGames={setFilterGames} />
+                    <GamesContainer>
+                        {gamesCatalog.map((game) =>
+                            game.title.toLowerCase().includes(filterGames.toLowerCase()) && (game.plataforms.includes(plataform) || plataform === "") ?
+                                <GameItem confirmDelete={confirmDelete} key={game._id} game={game} />
+                                :
+                                ""
+                        )
+
+
+                        }
+                    </GamesContainer>
+
+                </>
+                :
+                <TailSpin
+                    height="90"
+                    width="90"
+                    color={COLORS.button}
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                />}
+            {openDeleteModal ? (
                 <Modal>
                     <p> Você deseja deletar: {gameToDelete.title} permanentemente?</p>
                     <div onClick={() => { deleteProduct(gameToDelete._id) }}>Confirmar</div>
@@ -100,17 +109,17 @@ width: 100%;
 min-height:100vh;
 padding:77px 88px 30px 388px ;
 align-items:center;
-font-family :${ FONTS.text};
+font-family :${FONTS.text};
 justify-content:center;
 `
-const GamesContainer = styled.div `
+const GamesContainer = styled.div`
 width: 60vw;
     display :flex;
     flex-wrap:wrap;
     justify-content:center;
 `
 
-const FeaturedGame = styled.img `
+const FeaturedGame = styled.img`
 width: 60vw;
 border-radius: 22px;
 height:25vh;
