@@ -43,8 +43,10 @@ div{
     &:focus{
     box-shadow: 0 0 0 0;
     outline: 0;
+
   }
   }
+ 
   button {
     font-family: ${FONTS.text};
     font-weight: 700;

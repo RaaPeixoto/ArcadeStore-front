@@ -1,40 +1,68 @@
-import { useContext } from "react";
-import {AddShoppingCart} from "styled-icons/material-outlined"
+import { useContext, useState } from "react";
+import { AddShoppingCart } from "styled-icons/material-outlined"
 import GameContainer from "../../components/GameContainer";
 import { UserContext } from "../../contexts/UserContext";
 import styled from "styled-components";
 import { COLORS } from "../../constants/layoutConstants";
 import { Delete } from "styled-icons/fluentui-system-filled";
 import { PencilFill } from "styled-icons/bootstrap";
-export default function GameItem({game}){
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../../constants/url";
+import { AuthContext } from "../../contexts/AuthContext";
+import Modal from "../../components/Modal";
+export default function GameItem({ game, openDeleteModal, setOpenDeleteModal }) {
+    const [openModal, setOpenModal] = useState(false);
     const { user } = useContext(UserContext);
-    console.log(user)
+    let navigate = useNavigate();
+    const { config } = useContext(AuthContext);
+    function deleteProduct(id) {
+        axios.delete(`${BASE_URL}/product/${id}`, {
+            headers: { Authorization: `Bearer ${config}` },
+        })
+            .then(res => {
+                setOpenDeleteModal(false)
+            })
+            .catch(err => {
+                console.log(err)
+
+            })
+    }
     return (
         <GameContainer >
-           {user.type === "adm"? 
-          
-            
-            <>
-            <DeleteIcon/>
-            <img src = {game.image} alt={game.title}/>
-            <button><EditIcon/> R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
-           
-            </> 
-            :
-            <> 
-            
-            <GameImage >
-                <img src = {game.image} alt={game.title}/> 
-                <Details> {game.title} <p> Mais informaçoes</p> </Details>
-                </GameImage>
-           
-            <button><CartIcon/>R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
-            {user.type === null?<p>*É preciso estar logado para adicionar ao carrinho.</p>:<></>}
-            
-            </>
-        
-        }
-            
+
+            {user.type === "adm" ?
+
+
+                <>
+                    <DeleteIcon onClick={() => setOpenDeleteModal(true)} />
+                    <img src={game.image} alt={game.title} />
+                    <button onClick={() => { navigate(`/product/edit/${game._id}`) }}><EditIcon /> R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
+
+                </>
+                :
+                <>
+
+                    <GameImage >
+                        <img src={game.image} alt={game.title} />
+                        <Details> {game.title} <p onClick={() => { navigate(`/game/${game._id}`) }}> Mais informaçoes</p> </Details>
+                    </GameImage>
+
+                    <button><CartIcon />R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
+                    {user.type === null ? <p>*É preciso estar logado para adicionar ao carrinho.</p> : <></>}
+
+                </>
+
+            }
+            {openDeleteModal ? (
+                <Modal>
+                    <p> Você deseja deletar esse produto ?</p>
+                    <div onClick={() => { deleteProduct(game._id) }}>Confirmar</div>
+                    <div onClick={() => setOpenDeleteModal(false)}>Cancelar</div>
+                </Modal>
+            ) : (
+                <></>
+            )}
         </GameContainer>
     )
 }

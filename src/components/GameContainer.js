@@ -19,7 +19,7 @@ width: 196px;
 min-height: 300px;
 background-color:${COLORS.catalogbox};
 border-radius:8px;
-margin:14px 3px 0 0;
+margin:14px 16px 0 0;
 padding:11px 8px 8px 8px;
 position:relative;
  img {

@@ -25,16 +25,17 @@ export default function LoginPage() {
       const { name, value } = e.target;
       setForm({ ...form, [name]: value });
     }
-    function login(e) {
+   function login(e) {
       e.preventDefault();
       axios.post(`${BASE_URL}/signin`,form)
       .then(res=>{
         setConfig (res.data.token)
-              setUser(res.data) 
+        setUser(res.data) 
               localStorage.setItem("token",res.data.token)
-              localStorage.setItem("name",res.data.userName)
+              localStorage.setItem("userName",res.data.userName)
               localStorage.setItem("type",res.data.type)
            navigate("/") 
+  
       })
       .catch(err => {
           console.log(err)
