@@ -11,6 +11,7 @@ import { BASE_URL } from "../../constants/url";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { COLORS } from "../../constants/layoutConstants";
+import swal from 'sweetalert';
 export default function LoginPage() {
     let navigate = useNavigate();
     const {setConfig} = useContext(AuthContext);
@@ -39,7 +40,7 @@ export default function LoginPage() {
       })
       .catch(err => {
         console.log(err)
-          alert(err.response.data)
+        swal("Erro!", (err.response.data));
           setLoading(false)
       })
      setLoading(true)
