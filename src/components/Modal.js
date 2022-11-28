@@ -42,6 +42,7 @@ const ModalContainer= styled.div`
         font-family: ${FONTS.text};
         font-weight: 700;
         font-size: 20px;
+        color:${COLORS.text}
     }
     div{
         

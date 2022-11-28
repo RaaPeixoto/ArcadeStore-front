@@ -11,23 +11,14 @@ import axios from "axios";
 import { BASE_URL } from "../../constants/url";
 import { AuthContext } from "../../contexts/AuthContext";
 import Modal from "../../components/Modal";
-export default function GameItem({ game, openDeleteModal, setOpenDeleteModal }) {
-    const [openModal, setOpenModal] = useState(false);
+export default function GameItem({ game, openDeleteModal, setOpenDeleteModal,confirmDelete}) {
+    
     const { user } = useContext(UserContext);
     let navigate = useNavigate();
     const { config } = useContext(AuthContext);
-    function deleteProduct(id) {
-        axios.delete(`${BASE_URL}/product/${id}`, {
-            headers: { Authorization: `Bearer ${config}` },
-        })
-            .then(res => {
-                setOpenDeleteModal(false)
-            })
-            .catch(err => {
-                console.log(err)
+  
 
-            })
-    }
+    
     return (
         <GameContainer >
 
@@ -35,7 +26,11 @@ export default function GameItem({ game, openDeleteModal, setOpenDeleteModal }) 
 
 
                 <>
-                    <DeleteIcon onClick={() => setOpenDeleteModal(true)} />
+                    <DeleteIcon onClick={() => {
+                    
+                    confirmDelete(game)
+                    
+                     }}/>
                     <img src={game.image} alt={game.title} />
                     <button onClick={() => { navigate(`/product/edit/${game._id}`) }}><EditIcon /> R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
 
@@ -45,7 +40,7 @@ export default function GameItem({ game, openDeleteModal, setOpenDeleteModal }) 
 
                     <GameImage >
                         <img src={game.image} alt={game.title} />
-                        <Details> {game.title} <p onClick={() => { navigate(`/game/${game._id}`) }}> Mais informaçoes</p> </Details>
+                        <Details> {game.title} <p onClick={() => { navigate(`/game/${game._id}`) }}> Mais informações</p> </Details>
                     </GameImage>
 
                     <button><CartIcon />R${parseFloat(game.price).toFixed(2).replace(".", ",")}</button>
@@ -54,15 +49,7 @@ export default function GameItem({ game, openDeleteModal, setOpenDeleteModal }) 
                 </>
 
             }
-            {openDeleteModal ? (
-                <Modal>
-                    <p> Você deseja deletar esse produto ?</p>
-                    <div onClick={() => { deleteProduct(game._id) }}>Confirmar</div>
-                    <div onClick={() => setOpenDeleteModal(false)}>Cancelar</div>
-                </Modal>
-            ) : (
-                <></>
-            )}
+           
         </GameContainer>
     )
 }
@@ -136,6 +123,7 @@ color:${COLORS.text};
 width:40px;
 position:absolute;
 right:5px;
+cursor: pointer;
 `
 
 const EditIcon = styled(PencilFill)`

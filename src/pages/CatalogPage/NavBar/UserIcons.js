@@ -16,7 +16,7 @@ export function UserIcons(){
     return(
     
     <>
-    <div><UserIcon/><p>{user.name}</p></div>
+    <div><UserIcon/><p>{user.userName}</p></div>
     <div><CartIcon/><p>Carrinho de compras</p></div>
     <div><LibaryGamesIcon/><p>Meus Jogos</p></div>
     <div onClick={logOut}><LogoutIcon/><p>Sair</p></div>

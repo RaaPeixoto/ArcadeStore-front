@@ -77,6 +77,7 @@ hr{
    
 }
 p{
+    line-height: 20px;
     margin-bottom:18px;
     width:464px;
 }

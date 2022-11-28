@@ -1,28 +1,27 @@
 import styled from "styled-components"
 import { COLORS } from "../../../constants/layoutConstants"
 import logo from "../../../assets/images/logo.png"
-import { LogOut } from "styled-icons/boxicons-regular"
 import { UserContext } from "../../../contexts/UserContext";
 import { useContext } from "react"
 import { Login } from "styled-icons/material-outlined"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import AdmIcons from "./AdmIcons"
 import PlataformsContainer from "../PlataformsContainer"
 import { UserIcons } from "./UserIcons";
 export default function NavBar({ setPlataform, plataform }) {
-
+    let navigate = useNavigate();
     const { user } = useContext(UserContext);
-console.log(user);
+console.log(user.type);
     return (
         <NavBarContainer>
-            <Logo src={logo} />
+           <LogoContainer> <Logo src={logo} /></LogoContainer>
             {user.type !== null ?
                 user.type === "adm" ?
                     <AdmIcons user={user}/>
                     :
                    <UserIcons/>
                 :
-                <StyledLink to="/login"><div> <LoginIcon /> <p>Entre ou Cadastre-se</p></div></StyledLink>
+                <div onClick={()=>navigate("/login")}> <LoginIcon /> <p>Entre ou Cadastre-se</p></div>
             }
             <PlataformsContainer setPlataform={setPlataform} plataform={plataform} />
         </NavBarContainer>
@@ -59,17 +58,15 @@ margin-top:20px;
 `
 
 
+
 const LoginIcon = styled(Login)`
 width: 30px;
 color: ${COLORS.text};
 
 `
-
-
-const StyledLink = styled(Link)`
-    text-decoration: none;
-margin-left: -70px;
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: none;
-    }
-`;
+const LogoContainer = styled.div`
+width:300px;
+margin:0 !important;
+display:flex;
+padding:0  !important;
+`
