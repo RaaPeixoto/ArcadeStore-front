@@ -28,7 +28,7 @@ function postShoppingCart(game){
         headers: { Authorization: `Bearer ${config}` },
       } )
     .then(res => {
-      console.log("deu com")
+      navigate("/shoppingcart")
     })
     .catch(err => {
         console.log(err)

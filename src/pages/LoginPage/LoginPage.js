@@ -38,7 +38,8 @@ export default function LoginPage() {
   
       })
       .catch(err => {
-          console.log(err)
+        console.log(err)
+          alert(err.response.data)
           setLoading(false)
       })
      setLoading(true)

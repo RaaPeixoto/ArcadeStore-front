@@ -80,7 +80,7 @@ export default function ShoppingCartPage() {
             <h1><CartIcon/>Carrinho de compras</h1>
             {shoppingCart.map((game)=> <ShoppingCartItem key= {game._id} game={game} confirmDelete={confirmDelete}/>)}
             <TotalPrice>Total: R$ {totalPrice.toFixed(2).replace(".", ",")}</TotalPrice>
-            <ConfirmCheckout onClick={postCheckOut}><button>Confirmar Compra</button></ConfirmCheckout>
+            <ConfirmCheckout ><button onClick={()=>navigate("/")}>Continuar comprando</button><button onClick={postCheckOut}>Confirmar Compra</button></ConfirmCheckout>
             {openDeleteModal ? (
                 <Modal>
                     <p> Você deseja deletar: {gameToDelete.product.title} do seu carrinho ?</p>
@@ -136,7 +136,7 @@ margin:14px 16px 0 0;
  button{
     font-family: ${FONTS.text};
     font-weight: 700;
-    width: 200px;
+    width: 230px;
     height: 37px;
     background: ${COLORS.button};
     border-radius: 5px;
@@ -149,6 +149,10 @@ margin:14px 16px 0 0;
     color: ${COLORS.text};
     box-shadow: none;
     border: none;
-   
+   margin-right:7px;
+   cursor:pointer;
+   &:first-child{
+    background: ${COLORS.input};
+   }
  }
 `
