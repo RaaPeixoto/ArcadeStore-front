@@ -83,7 +83,7 @@ display:flex;
 flex-direction:column;
 justify-content:space-between;
 width: 609px;
-height: 415px;
+min-height: 415px;
 background: rgba(40, 47, 54, 0.93);
 border-radius: 22px 20px 16px 17px;
 h1{
